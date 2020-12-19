@@ -61,10 +61,22 @@ class CalcController {
         let result = eval(this._operation.join(""));
 
         this._operation = [result, last];
+
+        // Atualizar display
+        this.setLastNumberToDisplay();
     }
 
-    setNumberToDisplay() {
+    setLastNumberToDisplay() {
+        let lastNumber;
 
+        for (let i = this._operation.length - 1; i >= 0; i--) {
+            if (!this.isOperator(this._operation[i])) {
+                lastNumber = this._operation[i];
+                break;
+            }
+        }
+
+        this.displayCalc = lastNumber;
     }
 
     addOperation(value) {
@@ -77,6 +89,9 @@ class CalcController {
                 console.log('Outra coisa!');
             } else {
                 this.pushOperation(value);
+
+                // Atualizar display
+                this.setLastNumberToDisplay();
             }
 
         } else {
@@ -87,7 +102,7 @@ class CalcController {
                 this.setLastOperation(parseInt(newValue));
 
                 // Atualizar display
-                this.setNumberToDisplay();
+                this.setLastNumberToDisplay();
             }
         }
     }
